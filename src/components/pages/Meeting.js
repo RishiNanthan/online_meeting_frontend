@@ -2,15 +2,32 @@ import React, { Component } from 'react';
 
 const video_constraint = {video: {width: {exact: 640}, height: {exact: 480}}};
 
+const sample_user = {
+    name: "Rishi Nanthan",
+    image: null,
+
+    video: false,
+    audio: false,
+    present: true,
+};
+
 class Meeting extends Component{
 
     constructor(props){
         super(props);
         this.state = {
+            client_name: "Hello World",
+
             video_capture: false,
             present_screen: false,
-            video_stream: null,
+            audio_capture: false,
+
+            users: [ sample_user, sample_user, sample_user, sample_user, sample_user ],
+            presenting_user: null,
         }
+
+
+        this.presenting_user = null;
 
         this.video_stream = null;
         this.video_streamer = null;
@@ -93,15 +110,64 @@ class Meeting extends Component{
     }
 
     streamVideo(){
-        let screen = document.getElementById("screen");
         let canvas = document.getElementById("canvas");
         let context = canvas.getContext('2d');
         canvas.width = 640;
         canvas.height = 480;
         this.video_streamer = setInterval(() => {
-            context.drawImage(screen, 0, 0, 640, 480);
-            let data = canvas.toDataURL('image/png');
-        }, (100));
+            let data;
+            if(this.video_stream == null || !this.video_stream.active){
+                data = null;
+            }
+            else{
+                let screen = document.getElementById("screen");
+                if(screen == null){
+                    data = null;
+                }
+                else{
+                    context.drawImage(screen, 0, 0, 640, 480);
+                    data = canvas.toDataURL('image/png');
+                }
+            }
+             // use data
+            console.log(data);
+
+        }, (500));
+    }
+
+    create_users_div(){
+        let users_div = [];
+        const user_img_style = { width: "85%", height: "150px", background: "black", margin: "auto" };
+        const user_style = { padding: "1%", background: "gray", width: "17%", color: "white", display: "inline-block", margin: "1%" };
+
+        for(let i=0; i<4; i++){
+            if(i < this.state.users.length){
+                users_div.push(
+                    <div style={ user_style } key={ i + " " + this.state.users[i].name }>
+                        { 
+                            this.state.users[i].image != null ?
+                            <img src={ this.state.users[i].image } alt={ this.state.users[i].name } style={ user_img_style } />:
+                            <div style={ user_img_style }></div>
+                        }
+                        <p>{ this.state.users[i].name }</p>
+                    </div>
+                );
+            }
+            else{
+                break;
+            }
+        }
+        if(users_div.length < 4){
+            users_div.push(
+                <div style={ user_style } key={ "404" }>
+                    <p>
+                        Share your meeting id, so that other people can join..
+                    </p>
+                </div>
+            )
+        }
+
+        return users_div;
     }
 
     render(){
@@ -109,7 +175,20 @@ class Meeting extends Component{
             <div className="meeting">
                 <h1>Meeting</h1>
                 <center>
-                    <video id="screen" style={{background: "black", height: "500px", width: "60%"}} autoPlay={true}></video>
+                    <div style={{background: "black", minHeight: "500px", width: "90%"}}>
+                        <center>
+                            <h3 style={{ color: "lightgray"}}>{ this.state.client_name }</h3>
+                            {
+                                this.state.present_screen || this.state.video_capture ?
+                                    <video id="screen" 
+                                    style={{background: "black", minHeight: "300px", minWidth: "60%", maxWidth: "90%"}} autoPlay={true}>    
+                                    </video>
+                                    :
+                                    this.presenting_user != null &&
+                                        <img src={ this.presenting_user.image } id="imagescreen" alt="User Presenting" />
+                            }
+                        </center>
+                    </div>
                     <br />
                     <div>
                         {
@@ -122,10 +201,15 @@ class Meeting extends Component{
                             <input type="button" value="Present" onClick={ event => this.shareScreen() } /> :
                             <input type="button" value="Stop Presenting" onClick={ event => this.stopScreen() } />
                         }
-                        
                     </div>
                     <canvas id="canvas" style={{display: "none"}}></canvas>
                 </center>
+                <hr />
+                <div style={{width: "90%", margin:"auto"}}>
+                    {
+                        this.create_users_div()
+                    }
+                </div>
             </div>
         );
     }
