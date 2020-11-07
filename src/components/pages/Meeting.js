@@ -35,6 +35,10 @@ class Meeting extends Component{
         this.showVideo = this.showVideo.bind(this);
         this.hideVideo = this.hideVideo.bind(this);
         this.streamVideo = this.streamVideo.bind(this);
+        this.stopScreen = this.stopScreen.bind(this);
+        this.shareScreen = this.shareScreen.bind(this);
+        this.captureAudio = this.captureAudio.bind(this);
+        this.muteAudio = this.muteAudio.bind(this);
     }
 
     showVideo(){
@@ -130,86 +134,66 @@ class Meeting extends Component{
                 }
             }
              // use data
-            console.log(data);
 
         }, (500));
     }
 
-    create_users_div(){
-        let users_div = [];
-        const user_img_style = { width: "85%", height: "150px", background: "black", margin: "auto" };
-        const user_style = { padding: "1%", background: "gray", width: "17%", color: "white", display: "inline-block", margin: "1%" };
+    captureAudio(){
 
-        for(let i=0; i<4; i++){
-            if(i < this.state.users.length){
-                users_div.push(
-                    <div style={ user_style } key={ i + " " + this.state.users[i].name }>
-                        { 
-                            this.state.users[i].image != null ?
-                            <img src={ this.state.users[i].image } alt={ this.state.users[i].name } style={ user_img_style } />:
-                            <div style={ user_img_style }></div>
-                        }
-                        <p>{ this.state.users[i].name }</p>
-                    </div>
-                );
-            }
-            else{
-                break;
-            }
-        }
-        if(users_div.length < 4){
-            users_div.push(
-                <div style={ user_style } key={ "404" }>
-                    <p>
-                        Share your meeting id, so that other people can join..
-                    </p>
-                </div>
-            )
-        }
-
-        return users_div;
     }
+
+    muteAudio(){
+
+    }
+
 
     render(){
         return (
             <div className="meeting">
-                <h1>Meeting</h1>
-                <center>
-                    <div style={{background: "black", minHeight: "500px", width: "90%"}}>
-                        <center>
-                            <h3 style={{ color: "lightgray"}}>{ this.state.client_name }</h3>
-                            {
-                                this.state.present_screen || this.state.video_capture ?
-                                    <video id="screen" 
-                                    style={{background: "black", minHeight: "300px", minWidth: "60%", maxWidth: "90%"}} autoPlay={true}>    
-                                    </video>
+                <div className="video-frame">
+                    <center>
+                        <h3>{ this.state.client_name }</h3>
+                        {
+                            this.state.present_screen || this.state.video_capture ?
+                                <video id="screen" className="screen" autoPlay={true}></video>
+                                :
+                                this.presenting_user != null ?
+                                    <img src={ this.presenting_user.image } id="imagescreen" alt="User Presenting" className="screen" />
                                     :
-                                    this.presenting_user != null &&
-                                        <img src={ this.presenting_user.image } id="imagescreen" alt="User Presenting" />
-                            }
-                        </center>
-                    </div>
-                    <br />
-                    <div>
-                        {
-                            !this.state.video_capture ?
-                            <input type="button" value="Camera" onClick={ event => this.showVideo() } /> :
-                            <input type="button" value="Close Camera" onClick={ event => this.hideVideo() } />
+                                    <div className="screen">
+
+                                    </div>
                         }
-                        {
-                            !this.state.present_screen ?
-                            <input type="button" value="Present" onClick={ event => this.shareScreen() } /> :
-                            <input type="button" value="Stop Presenting" onClick={ event => this.stopScreen() } />
-                        }
-                    </div>
-                    <canvas id="canvas" style={{display: "none"}}></canvas>
-                </center>
-                <hr />
-                <div style={{width: "90%", margin:"auto"}}>
-                    {
-                        this.create_users_div()
-                    }
+                    </center>
                 </div>
+                <div className="bottom-navbar">
+                    <div className="meeting-details-btn">
+                        Meeting Details
+                    </div>
+                    
+                    <input type="button" value="Leave" className="button"/>
+                    {
+                        !this.state.video_capture ?
+                        <input className="button" type="button" value="Camera" onClick={ event => this.showVideo() } /> :
+                        <input className="button" type="button" value="Close Camera" onClick={ event => this.hideVideo() } />
+                    }
+                    {
+                        !this.state.audio_capture ?
+                        <input className="button" type="button" value="Unmute" onClick={ event => this.captureAudio() } /> :
+                        <input className="button" type="button" value="Mute" onClick={ event => this.muteAudio() } />
+                    }
+
+
+                    <div className="share-screen-btn" onClick={ event => { 
+                        !this.state.present_screen ? this.shareScreen() : this.stopScreen()
+                    }}>
+                        {
+                            !this.state.present_screen ? "Share Screen" : "Stop Sharing"
+                        }
+                    </div>
+                    
+                </div>
+                <canvas id="canvas" style={{display: "none"}}></canvas>
             </div>
         );
     }
