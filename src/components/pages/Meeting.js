@@ -16,7 +16,7 @@ class Meeting extends Component{
     constructor(props){
         super(props);
         this.state = {
-            client_name: "Hello World",
+            client_name: "Rishi Nanthan",
 
             video_capture: false,
             present_screen: false,
@@ -139,11 +139,21 @@ class Meeting extends Component{
     }
 
     captureAudio(){
-
+        this.setState( prev => {
+            return {
+                ...prev,
+                audio_capture: true,
+            }
+        });
     }
 
     muteAudio(){
-
+        this.setState( prev => {
+            return {
+                ...prev,
+                audio_capture: false,
+            }
+        });
     }
 
 
@@ -171,16 +181,28 @@ class Meeting extends Component{
                         Meeting Details
                     </div>
                     
-                    <input type="button" value="Leave" className="button"/>
+                    <button className="button" style={{color: "red"}}>
+                        <i className="fa fa-phone fa-3x" aria-hidden="true"></i>
+                    </button>
                     {
                         !this.state.video_capture ?
-                        <input className="button" type="button" value="Camera" onClick={ event => this.showVideo() } /> :
-                        <input className="button" type="button" value="Close Camera" onClick={ event => this.hideVideo() } />
+                            <button className="button" onClick={ event => this.showVideo() }>
+                                <i className="fa fa-stop-circle fa-3x"></i>
+                            </button>
+                             :
+                            <button className="button" onClick={ event => this.hideVideo() }>
+                                <i className="fa fa-camera fa-3x" aria-hidden="true"></i>
+                            </button>
                     }
                     {
                         !this.state.audio_capture ?
-                        <input className="button" type="button" value="Unmute" onClick={ event => this.captureAudio() } /> :
-                        <input className="button" type="button" value="Mute" onClick={ event => this.muteAudio() } />
+                            <button className="button" onClick={ event => this.captureAudio() }>
+                                <i className="fa fa-microphone-slash fa-3x"></i>
+                            </button>
+                             :
+                            <button className="button" onClick={ event => this.muteAudio() }>
+                                <i className="fa fa-microphone fa-3x"></i>
+                            </button>
                     }
 
 

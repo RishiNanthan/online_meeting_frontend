@@ -14,6 +14,9 @@
     height: min-content;
 }
 
+.meeting .video-frame h3{
+    color: rgb(30, 170, 30);
+}
 
 .meeting .video-frame .screen{
     background-color: black;
@@ -35,9 +38,10 @@
 }
 
 .meeting .bottom-navbar .meeting-details-btn{
-    padding: 25px;
+    height: 100px;
     border-right: 2px solid gray;
-    width: max-content;
+    width: 15%;
+    padding: 10px;
     cursor: pointer;
     float: left;
 }
@@ -48,9 +52,10 @@
 }
 
 .meeting .bottom-navbar .share-screen-btn{
-    padding: 25px;
+    height: 100px;
     border-left: 2px solid gray;
-    width: max-content;
+    width: 15%;
+    padding: 10px;
     cursor: pointer;
     float: right;
 }
@@ -61,19 +66,18 @@
 }
 
 .meeting .bottom-navbar .button{
-    padding-top: 25px;
-    padding-bottom: 25px;
-    padding-left: 10px;
-    padding-right: 10px;
+    height: 100px;
     cursor: pointer;
     background: none;
     border: none;
-    margin-left: 15%;
+    width: 15%;
+    margin-left: 2%;
+    margin-right: 2%;
+    color: gray;
 }
 
 .meeting .bottom-navbar .button:hover{
-    background-color: lightsalmon;
-    color: black;
+    color: red;
 }
 
 
