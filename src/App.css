@@ -2,6 +2,7 @@
 
 .meeting{
     position: fixed;
+    user-select: none;
     background-color: black;
     color: lightgray;
     top: 0;
@@ -12,6 +13,8 @@
 
 .meeting .video-frame{
     height: min-content;
+    display: inline-block;
+    width: 100%;
 }
 
 .meeting .video-frame h3{
@@ -28,7 +31,7 @@
 }
 
 .meeting .bottom-navbar{
-    background-color: aliceblue;
+    background-color: white;
     color: gray;
     position: fixed;
     bottom: 0;
@@ -39,11 +42,12 @@
 
 .meeting .bottom-navbar .meeting-details-btn{
     height: 100px;
-    border-right: 2px solid gray;
+    border-right: 2px solid lightgray;
     width: 15%;
     padding: 10px;
     cursor: pointer;
     float: left;
+    outline: none;
 }
 
 .meeting .bottom-navbar .meeting-details-btn:hover{
@@ -53,11 +57,13 @@
 
 .meeting .bottom-navbar .share-screen-btn{
     height: 100px;
-    border-left: 2px solid gray;
+    border-left: 2px solid lightgray;
+    border-right: 2px solid lightgray;
     width: 15%;
     padding: 10px;
     cursor: pointer;
     float: right;
+    outline: none;
 }
 
 .meeting .bottom-navbar .share-screen-btn:hover{
@@ -74,11 +80,174 @@
     margin-left: 2%;
     margin-right: 2%;
     color: gray;
+    outline: none;
 }
 
 .meeting .bottom-navbar .button:hover{
     color: red;
 }
 
+.meeting .top-navbar{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: white;
+    padding: 1%;
+    margin: 1%;
+    z-index: 4;
+    box-shadow: 2px 5px 10px lightgray;
+}
+
+.meeting .top-navbar button{
+    margin: 1%;
+    background: none;
+    color: gray;
+    border: none;
+    padding: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.meeting .top-navbar button:hover{
+    color: black;
+}
 
 
+.meeting .reduce-width{
+    transition: 0.5s;
+    width: 70%;
+}
+
+.meeting .sidebar{
+    position: absolute;
+    width: 28%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    color: black;
+    z-index: 5;
+    margin: 1%;
+}
+
+
+.meeting .sidebar .navigation button{
+    width: 40%;
+    margin: 2%;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.meeting .sidebar .navigation button:hover{
+    color: gray;
+}
+
+.meeting .sidebar .navigation .not-selected{
+    border-bottom: 2px solid gray;
+    box-shadow: 2px 2px 5px gray;
+}
+
+.meeting .sidebar .navigation .close-btn{
+    font-weight: bolder;
+    font-size: larger;
+    color: gray;
+    outline: none;
+    cursor: pointer;
+}
+
+.meeting .sidebar .navigation .close-btn:hover{
+    color: black;
+}
+
+.meeting .sidebar .content{
+    position: absolute;
+    margin-top: 30px;
+    bottom: 0;
+    top: 0;
+    width: 100%;
+}
+
+
+.meeting .sidebar .content .messages{
+    display: block;
+    padding: 10px;
+    overflow-y: auto;
+    height: 90%;
+    margin-bottom: 50px;
+}
+
+.meeting .sidebar .content .new-msg{
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    width: 90%;
+    background-color: white;
+}
+
+.meeting .sidebar .content .new-msg input{
+    background: none;
+    width: 75%;
+    height: 30px;
+    border: none;
+    border-bottom: 2px solid gray;
+    outline: none;
+}
+
+.meeting .sidebar .content .new-msg .send-btn{
+    color: gray;
+    font-size: medium;
+    cursor: pointer;
+    margin-left: 3%;
+}
+
+.meeting .sidebar .content .new-msg .send-btn:hover{
+    color: lightblue;
+}
+
+.meeting .sidebar .content .messages .message .user{
+    font-size: smaller;
+    font-weight: bolder;
+}
+
+.meeting .sidebar .content .messages .message .msg{
+    font-size: smaller;
+} 
+
+
+.meeting .sidebar .content .persons{
+    display: block;
+    padding: 10px;
+    overflow-y: auto;
+    height: 90%;
+    margin-bottom: 50px;
+}
+
+.meeting .sidebar .content .persons .person{
+    margin: 2%;
+    color: gray;
+    background-color: honeydew;
+    padding: 10px;
+}
+
+.meeting .sidebar .content .persons .person:hover{
+    box-shadow: 2px 2px 5px gray;
+    color: green;
+    cursor: pointer;
+}
+
+.meeting .sidebar .content .persons .person .user-details{
+    display: inline-block;
+    width: 65%;
+}
+
+.meeting .sidebar .content .persons .person .icons{
+    display: inline-block;
+    width: 30%;
+}
+
+.meeting .sidebar .content .persons .person .icons i{
+    color: red;
+    margin-right: 10%;
+}
